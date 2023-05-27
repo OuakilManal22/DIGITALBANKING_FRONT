@@ -1,0 +1,54 @@
+<div class="container mt-2">
+  <ng-container *ngIf="accounts">
+    <div class="card">
+      <div class="card-header">Accounts</div>
+      <div class="card-body">
+        <div *ngIf="searchFormGroup">
+          <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchAccount()">
+            <div class="input-group">
+              <label class="input-group-text">Keyword :</label>
+              <input type="text" formControlName="keyword" class="form-control">
+              <button class="btn btn-info">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+        <table class="table">
+          <thead>
+          <tr>
+            <th>ID</th><th>Balance</th><th>Type</th><th>Created At</th>
+            <th>Operations </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let c of accounts  | async">
+            <td>{{c.id}}</td>
+            <td>{{c.balance}}</td>
+            <td>{{c.type}}</td>
+            <td>{{c.createdAt|date:'dd/MM/yyyy'}}</td>
+            <td> <button (click)="redirectToOperations(c.id)"> Operations </button></td>
+            <td>
+              <button (click)="handleDeleteAccount(c)" class="btn btn-danger">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+            <td>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #failureOrLading>
+    <ng-container *ngIf="errorMessage; else loading">
+      <div class="text-danger">
+        {{errorMessage}}
+      </div>
+    </ng-container>
+    <ng-template #loading>
+      Loading .....
+    </ng-template>
+  </ng-template>
+</div>
